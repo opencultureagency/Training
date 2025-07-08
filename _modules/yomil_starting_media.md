@@ -6,7 +6,7 @@ module:
     url: 'https://yomil.org/'
     tag: 'Media & Art, Journalism, Community & Moderation, Data_Security & Research, Education'     
     description: "This module covers the basics of media, information literacy and responsible journalism. Learners explore career pathways, practical tools and key skills needed to succeed in the media sector. It also offers guidance on internships, mentorship and building a professional network."
-    pic-url: yomil.png
+    pic-url: yomil_logo.jpg
     duration: 15
     max-participants: 10
     min-trainers: 1

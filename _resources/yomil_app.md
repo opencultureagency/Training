@@ -8,5 +8,5 @@ resource:
     difficulty: 3
     cost: 0
     license: '[CC-BY-SA 4.0](https://choosealicense.com/licenses/cc-by-sa-4.0/)'
-    author: '[YoMil - Young Women’s Media Information Literacy](https://yomil.org/), [Contributors](https://yomil.org/wp-content/uploads/2025/05/yomil_media_guide_interactive.pdf#page=55)'
+    author: '[YoMil - Young Women’s Media Information Literacy](https://yomil.org/), [List of Contributors](https://yomil.org/wp-content/uploads/2025/05/yomil_media_guide_interactive.pdf#page=55)'
 ---
