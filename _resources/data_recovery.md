@@ -3,7 +3,7 @@ resource:
     name: 'Data Recovery Techniques'
     id: 'data_recovery'
     description: "This module introduces data recovery techniques for retrieving lost or corrupted data. It covers common causes, essential tools, best practices, and hands-on exercises, with a focus on practical application and ethical considerations."
-    url: 'https://github.com/maliarich/-ASKmobileLab/blob/main/Resource-file/Data-Recovery.md#data-recovery-techniques'
+    url: 'https://github.com/ASKnetCommunity/ASKmobileLab/blob/main/Resource-file/Data-Recovery.md'
     duration: 90     #in minutes, 0 min for "tool-kits" with no educational timeframe
     difficulty: 3    #1-3, 1 is easyest
     cost: 0      #in $ (dont leave empty, but type 0 instead)

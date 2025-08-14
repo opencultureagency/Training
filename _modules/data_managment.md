@@ -3,7 +3,7 @@ layout: module
 module:
     name: 'Data Managment: Backup, Protection, and Recovery Essentials'
     id: 'data_managment'
-    url: 'https://github.com/maliarich/-ASKmobileLab?tab=readme-ov-file#data-backup-and-data-recovery'
+    url: 'https://github.com/ASKnetCommunity/ASKmobileLab?tab=readme-ov-file'
     tag: 'Data Security & Research, Web & Software'
     description: "This Module is designed to provide learners with a comprehensive understanding of data backup, protection and recovery. It covers essential concepts, practical techniques, and tools needed to effectively protect data and ensure its restoration incase of loss or corruption."
     pic-url: data_managment.jpg
