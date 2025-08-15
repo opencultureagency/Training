@@ -12,5 +12,5 @@ module:
     min-trainers: 1
     difficulty: 2   #1-3, 1 is easyest
     license: '[CC-BY-SA 4.0](https://choosealicense.com/licenses/cc-by-sa-4.0/)'
-    res: 'solar_inverter_video, oscillation_section, amplification_section, transformation_section, complete_solar_inverter, testing_application_safety, solar_inverter_tools_materials'
+    res: 'solar_inverter_video, use_multimeter, oscillation_section, amplification_section, transformation_section, complete_solar_inverter, testing_application_safety, solar_inverter_tools_materials'
 ---  
