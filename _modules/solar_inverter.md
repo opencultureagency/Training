@@ -6,7 +6,7 @@ module:
     url: 'https://github.com/ASKnetCommunity/solar_inverter'
     tag: 'Hardware & Repair, Open Source & Knowledge, Sustainability & Environment'
     description: "This resource introduces the basics of solar inverter design, explaining how to convert DC from solar panels into AC for household use. Through a step-by-step guide covering oscillation, amplification, and step-up transformation, learners gain practical skills to build a simple DIY inverter."
-    pic-url: .jpg
+    pic-url: solar_inverter.jpg
     duration: 15
     max-participants: 15
     min-trainers: 1
