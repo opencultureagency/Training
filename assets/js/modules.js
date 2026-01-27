@@ -29,8 +29,8 @@
           this.addSorting();
           this.addSearchFilter();
 
-          // ✅ ÄNDERUNG: Initiale Random-Darstellung – NUR EINMAL
-          // Wichtig: nach Initialisierung, bevor User interagiert
+          // CHANGE: Initial random display – ONLY ONCE
+          // Important: after initialization, before user interaction
           requestAnimationFrame(() => {
               this.shuffle.sort({ randomize: true });
           });
@@ -200,7 +200,7 @@
               };
           }
 
-          // ✅ ÄNDERUNG: NUR sortieren, wenn wirklich Optionen existieren
+          // CHANGE: Only sort if options actually exist
           if (options) {
               this.shuffle.sort(options);
           }
