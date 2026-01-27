@@ -18,20 +18,26 @@
 
           // Log events.
           //this.addShuffleEventListeners();
+
           this.filters = {
               difficulties: [],
               participants: [],
               tags: [],
           };
-          this._bindEventListeners();
 
+          this._bindEventListeners();
           this.addSorting();
           this.addSearchFilter();
+
+          // ✅ ÄNDERUNG: Initiale Random-Darstellung – NUR EINMAL
+          // Wichtig: nach Initialisierung, bevor User interagiert
+          requestAnimationFrame(() => {
+              this.shuffle.sort({ randomize: true });
+          });
       }
 
       /**
-       * Shuffle uses the CustomEvent constructor to dispatch events. You can listen
-       * for them like you normally would (with jQuery for example).
+       * Shuffle uses the CustomEvent constructor to dispatch events.
        */
       addShuffleEventListeners() {
           this.shuffle.on(Shuffle.EventType.LAYOUT, (data) => {
@@ -56,171 +62,96 @@
           }, this);
 
           this.tags.forEach(function (button) {
-            button.addEventListener('click', this._onTagChange);
+              button.addEventListener('click', this._onTagChange);
           }, this);
 
           this.participants.forEach(function (button) {
-            button.addEventListener('click', this._onParticipantChange);
+              button.addEventListener('click', this._onParticipantChange);
           }, this);
 
           this.reset.forEach(function (button) {
               button.addEventListener('click', this._onResetClick);
           }, this);
-
       };
 
-
-      /**
-       * Get the values of each `active` button.
-       * @return {Array.<string>}
-       */
-
       _getCurrentDifficultyFilters = function () {
-          return this.difficulties.filter(function (button) {
-              return button.classList.contains('active');
-          }).map(function (button) {
-              return button.getAttribute('data-difficulty');
-          });
+          return this.difficulties
+              .filter(btn => btn.classList.contains('active'))
+              .map(btn => btn.getAttribute('data-difficulty'));
       };
 
       _getCurrentTagFilters = function () {
-        return this.tags.filter(function (button) {
-            return button.classList.contains('active');
-        }).map(function (button) {
-            return button.getAttribute('data-tag');
-        });
+          return this.tags
+              .filter(btn => btn.classList.contains('active'))
+              .map(btn => btn.getAttribute('data-tag'));
       };
 
       _getCurrentParticipantFilters = function () {
-          return this.participants.filter(function (button) {
-              return button.classList.contains('active');
-          }).map(function (button) {
-              return button.getAttribute('data-participant');
-          });
+          return this.participants
+              .filter(btn => btn.classList.contains('active'))
+              .map(btn => btn.getAttribute('data-participant'));
       };
 
       _resetFilters = function () {
-          var allFilterButtons = Array.from(document.querySelectorAll('.filter-difficulty button, .filter-tag button, .filter-participant button'));
+          var allFilterButtons = Array.from(
+              document.querySelectorAll(
+                  '.filter-difficulty button, .filter-tag button, .filter-participant button'
+              )
+          );
 
-          // remove all "active" classes
-          allFilterButtons.forEach(function (btn) {
-              btn.classList.remove('active');
-          });
+          allFilterButtons.forEach(btn => btn.classList.remove('active'));
 
-          //filter() (filter aktualisieren)
-          this.filters.difficulties = this._getCurrentDifficultyFilters();
-          this.filters.participants = this._getCurrentParticipantFilters();
-          this.filters.tags = this._getCurrentTagFilters();
+          this.filters.difficulties = [];
+          this.filters.participants = [];
+          this.filters.tags = [];
+
           this.filter();
-      }
+      };
 
-      /**
-       * A difficulty  state changed, update the current filters and filte.r
-       */
-       _handleDifficultyChange = function (evt) {
-          var button = evt.currentTarget;
-          let similarButtons = [];
-          this.difficulties.forEach((btn) => {
-            if (btn.dataset.difficulty == button.dataset.difficulty) {
-              similarButtons.push(btn);
-            }
-          })
+      _handleDifficultyChange = function (evt) {
+          const button = evt.currentTarget;
+          const value = button.dataset.difficulty;
 
-          if (button.getAttribute('data-difficulty') == 'All') {
-              // remove all "active" classes
-              this.difficulties.forEach(function (btn) {
-                  btn.classList.remove('active');
-              });
+          if (value === 'All') {
+              this.difficulties.forEach(btn => btn.classList.remove('active'));
           } else {
-
-              if (button.classList.contains('active')) {
-                  button.classList.remove('active');
-                  similarButtons.forEach((btn) => btn.classList.remove('active'));
-              } else {
-                  button.classList.add('active');
-                  similarButtons.forEach((btn) => btn.classList.add('active'));
-              }
+              button.classList.toggle('active');
           }
 
           this.filters.difficulties = this._getCurrentDifficultyFilters();
           this.filter();
       };
 
-      /**
-       * A tag state changed, update the current filters and filter
-       */
       _handleTagChange = function (evt) {
-        var button = evt.currentTarget;
-        let similarButtons = [];
-        this.tags.forEach((btn) => {
-            if (btn.dataset.tag == button.dataset.tag) {
-                similarButtons.push(btn);
-            }
-        })
+          const button = evt.currentTarget;
+          const value = button.dataset.tag;
 
-        if (button.getAttribute('data-tag') == 'All') {
-            // remove all "active" classes
-            this.tags.forEach(function (btn) {
-                btn.classList.remove('active');
-            });
-        } else {
-            if (button.classList.contains('active')) {
-                button.classList.remove('active');
-                similarButtons.forEach((btn) => btn.classList.remove('active'));
-            } else {
-                button.classList.add('active');
-                similarButtons.forEach((btn) => btn.classList.add('active'));
-            }
-        }
+          if (value === 'All') {
+              this.tags.forEach(btn => btn.classList.remove('active'));
+          } else {
+              button.classList.toggle('active');
+          }
 
-        this.filters.tags = this._getCurrentTagFilters();
-        this.filter();
-    };
+          this.filters.tags = this._getCurrentTagFilters();
+          this.filter();
+      };
 
-      /**
-       * A participant button was clicked. Update filters and display.
-       * @param {Event} evt Click event object.
-       */
       _handleParticipantChange = function (evt) {
-        var button = evt.currentTarget;
-        let similarButtons = [];
-        this.participants.forEach((btn) => {
-            if (btn.dataset.participant == button.dataset.participant) {
-              similarButtons.push(btn);
-            }
-        })
+          const button = evt.currentTarget;
+          const value = button.dataset.participant;
 
-        if (button.getAttribute('data-participant') == 'All') {
-            // remove all "active" classes
-            this.participants.forEach(function (btn) {
-                btn.classList.remove('active');
-            });
-        } else {
+          if (value === 'All') {
+              this.participants.forEach(btn => btn.classList.remove('active'));
+          } else {
+              this.participants.forEach(btn => btn.classList.remove('active'));
+              button.classList.add('active');
+          }
 
-            // Treat these buttons like radio buttons where only 1 can be selected.
-            if (button.classList.contains('active')) {
-                button.classList.remove('active');
-                similarButtons.forEach((btn) => btn.classList.remove('active'));
-            } else {
-                this.participants.forEach(function (btn) {
-                    btn.classList.remove('active');
-                });
+          this.filters.participants = this._getCurrentParticipantFilters();
+          this.filter();
+      };
 
-                button.classList.add('active');
-                similarButtons.forEach((btn) => btn.classList.add('active'));
-            }
-        }
-
-        this.filters.participants = this._getCurrentParticipantFilters();
-        this.filter();
-    };
-
-
-      /**
-       * Filter shuffle based on the current state of filters.
-       */
       filter = function () {
-          console.log('function filter()\n this.hasActiveFilters():', this.hasActiveFilters(), '\n this.filters: ', this.filters);
           if (this.hasActiveFilters()) {
               this.shuffle.filter(this.itemPassesFilters.bind(this));
           } else {
@@ -228,164 +159,81 @@
           }
       };
 
-      /**
-      * If any of the arrays in the `filters` property have a length of more than zero,
-      * that means there is an active filter.
-      * @return {boolean}
-      */
       hasActiveFilters = function () {
-          return Object.keys(this.filters).some(function (key) {
-              return this.filters[key].length > 0;
-          }, this);
+          return Object.values(this.filters).some(arr => arr.length > 0);
       };
 
-      /**
-       * Determine whether an element passes the current filters.
-       * @param {Element} element Element to test.
-       * @return {boolean} Whether it satisfies all current filters.
-       */
       itemPassesFilters = function (element) {
-          // extending the prototype of the Array,
-          // with a named method/function:
-          Array.prototype.commonElements = function (arr2) {
+          const difficulties = this.filters.difficulties;
+          const participants = this.filters.participants;
+          const tags = this.filters.tags;
 
-              // iterating over the 'this' array:
-              return this.some(function (el) {
+          const itemDifficulties = JSON.parse(element.dataset.difficulties);
+          const itemParticipants = JSON.parse(element.dataset.participants);
+          const itemTags = element.dataset.tags.split(',').map(t => t.trim());
 
-                  // looks for the array-value
-                  // represented by 'el', and
-                  // comparing the returned index
-                  // to see if it's greater than
-                  // -1 (and so is found in 'this' array):
-                  return arr2.indexOf(el) > -1;
-              });
-          }
-
-          var difficulties = this.filters.difficulties;
-          var participants = this.filters.participants;
-          var tags = this.filters.tags;
-          var difficulty = JSON.parse(element.getAttribute('data-difficulties'));
-          var participant = JSON.parse(element.getAttribute('data-participants'));
-          var tag = (element.dataset.tags).split(',').map((t) => t.trim());
-
-          // If there are active filters and this difficulty is not in the filter array 
-          if (difficulties.length > 0 && !difficulties.commonElements(difficulty)) {
-              return false;
-          }
-
-          // If there are active filters and this participant is not in the filter array 
-          if (participants.length > 0 && !participants.commonElements(participant)) {
-            return false;
-          }
-
-          if (tags.length > 0 && !tags.commonElements(tag)) {
-            return false;
-          }
+          if (difficulties.length && !difficulties.some(d => itemDifficulties.includes(d))) return false;
+          if (participants.length && !participants.some(p => itemParticipants.includes(p))) return false;
+          if (tags.length && !tags.some(t => itemTags.includes(t))) return false;
 
           return true;
       };
 
-
-      _removeActiveClassFromChildren(parent) {
-          const { children } = parent;
-          for (let i = children.length - 1; i >= 0; i--) {
-              children[i].classList.remove('active');
-          }
-      }
-
       addSorting() {
           const buttonGroup = document.querySelector('.sort-options');
-          if (!buttonGroup) {
-              return;
-          }
+          if (!buttonGroup) return;
           buttonGroup.addEventListener('change', this._handleSortChange.bind(this));
       }
 
       _handleSortChange(evt) {
-          // Add and remove `active` class from buttons.
-          const buttons = Array.from(evt.currentTarget.children);
-          buttons.forEach((button) => {
-              if (button.querySelector('input').value === evt.target.value) {
-                  button.classList.add('active');
-              } else {
-                  button.classList.remove('active');
-              }
-          });
-
-          // Create the sort options to give to Shuffle.
           const { value } = evt.target;
-          let options = {};
-
-          function sortByDate(element) {
-              return element.getAttribute('data-created');
-          }
-
-          function sortByTitle(element) {
-              return element.getAttribute('data-title').toLowerCase();
-          }
+          let options = null;
 
           if (value === 'date-created') {
               options = {
                   reverse: true,
-                  by: sortByDate,
+                  by: el => el.getAttribute('data-created'),
               };
           } else if (value === 'title') {
               options = {
-                  by: sortByTitle,
+                  by: el => el.getAttribute('data-title').toLowerCase(),
               };
           }
-          this.shuffle.sort(options);
+
+          // ✅ ÄNDERUNG: NUR sortieren, wenn wirklich Optionen existieren
+          if (options) {
+              this.shuffle.sort(options);
+          }
       }
 
-      // Advanced filtering
       addSearchFilter() {
           const searchInput = document.querySelector('.js-shuffle-search');
           const clearSearch = document.getElementById('reset-search');
-          if (!searchInput) {
-            return;
-          }
+          if (!searchInput) return;
+
           searchInput.addEventListener('keyup', this._handleSearchKeyup.bind(this));
           clearSearch.addEventListener('click', this._clearSearch.bind(this));
       }
 
-      /**
-       * Filter the shuffle instance by items with a title that matches the search input.
-       * @param {Event} evt Event object.
-       */
       _handleSearchKeyup(evt) {
           const searchText = evt.target.value.toLowerCase();
-          let url = new URL(sessionStorage.getItem(TRAINING_URL));
-          url.searchParams.set('search', searchText);
-          sessionStorage.setItem(TRAINING_URL, url.href);
-          this.shuffle.filter((element, shuffle) => {
-              // If there is a current filter applied, ignore elements that don't match it.
-              if (shuffle.group !== Shuffle.ALL_ITEMS) {
-                  // Get the item's groups.
-                  const groups = JSON.parse(element.getAttribute('data-difficulties'));
-                  const isElementInCurrentGroup = groups.indexOf(shuffle.group) !== -1;
-                  // Only search elements in the current group
-                  if (!isElementInCurrentGroup) {
-                      return false;
-                  }
-              }
-              const titleText = element.dataset.name.toLowerCase();
+
+          this.shuffle.filter(element => {
+              const title = element.dataset.name.toLowerCase();
               const description = element.dataset.description.toLowerCase();
-              return titleText.includes(searchText) || description.includes(searchText);
+              return title.includes(searchText) || description.includes(searchText);
           });
       }
 
-      _clearSearch(evt){
-        let searchInput = document.querySelector('.js-shuffle-search');
-        searchInput.value = '';
-        this.filter();
-        let url = new URL(sessionStorage.getItem(TRAINING_URL));
-        url.searchParams.delete('search');
-        sessionStorage.setItem(TRAINING_URL, url.href);
+      _clearSearch() {
+          const searchInput = document.querySelector('.js-shuffle-search');
+          searchInput.value = '';
+          this.filter();
       }
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-      window.demo = new Demo(document.querySelector('.my-shuffle-container'));
+      new Demo(document.querySelector('.my-shuffle-container'));
   });
 
 })(jQuery);
