@@ -12,5 +12,5 @@ module:
     min-trainers: 1
     difficulty: 1   #1-3, 1 is easyest
     license: '[CC-BY-SA 4.0](https://choosealicense.com/licenses/cc-by-sa-4.0/)'
-    res: 'peer2peerLearning, innovation_tools, coding_programming, ux_design, open_hardware_repair_culture, peacebuilding_media_glossary, olg_poster'       #comma-separated list e.g. 'askotec', or if more than 1: 'askotec, ohg'
+    res: 'openguides, peer2peerLearning, innovation_tools, coding_programming, ux_design, open_hardware_repair_culture, peacebuilding_media_glossary, olg_poster'       #comma-separated list e.g. 'askotec', or if more than 1: 'askotec, ohg'
 ---  
