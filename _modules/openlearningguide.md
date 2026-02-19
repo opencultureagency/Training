@@ -10,7 +10,7 @@ module:
     duration: 15 #module introduction time (NOT module duration) in minutes, the resources have their own time blocks to build up the module time!
     max-participants: 20
     min-trainers: 1
-    difficulty: 1   #1-3, 1 is easyest
+    difficulty: 2   #1-3, 1 is easyest
     license: '[CC-BY-SA 4.0](https://choosealicense.com/licenses/cc-by-sa-4.0/)'
     res: 'openguides, peer2peerLearning, innovation_tools, coding_programming, ux_design, open_hardware_repair_culture, peacebuilding_media_glossary, olg_poster'       #comma-separated list e.g. 'askotec', or if more than 1: 'askotec, ohg'
 ---  
