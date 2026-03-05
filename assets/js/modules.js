@@ -27,6 +27,7 @@
 
           this.addSorting();
           this.addSearchFilter();
+          this.addRandomizer();
       }
 
       /**
@@ -381,6 +382,18 @@
         let url = new URL(sessionStorage.getItem(TRAINING_URL));
         url.searchParams.delete('search');
         sessionStorage.setItem(TRAINING_URL, url.href);
+      }
+
+      _randomize(evt){
+        this.shuffle.sort({ randomize: true });
+      }
+
+      addRandomizer() {
+          const randomizeButton = document.getElementById('randomize');
+          if (!randomizeButton) {
+            return;
+          }
+          randomizeButton.addEventListener('click', this._randomize.bind(this));
       }
   }
 
